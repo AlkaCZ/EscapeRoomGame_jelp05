@@ -3,6 +3,6 @@ module cz.vse.escaperoomgame_jelp05 {
     requires javafx.fxml;
 
 
-    opens cz.vse.escaperoomgame_jelp05 to javafx.fxml;
-    exports cz.vse.escaperoomgame_jelp05;
+    opens cz.vse.escaperoomgame_jelp05.main to javafx.fxml;
+    exports cz.vse.escaperoomgame_jelp05.main;
 }

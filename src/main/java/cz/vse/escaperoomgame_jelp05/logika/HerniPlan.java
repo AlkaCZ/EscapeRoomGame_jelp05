@@ -1,6 +1,12 @@
 package cz.vse.escaperoomgame_jelp05.logika;
 
 
+import cz.vse.escaperoomgame_jelp05.main.Pozorovatel;
+import cz.vse.escaperoomgame_jelp05.main.PredmetPozorovani;
+
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  *  Class HerniPlan - třída představující mapu a stav adventury.
  * 
@@ -10,7 +16,7 @@ package cz.vse.escaperoomgame_jelp05.logika;
  *  a pamatuje si aktuální prostor, ve kterém se hráč právě nachází.
  *
  */
-public class HerniPlan {
+public class HerniPlan implements PredmetPozorovani {
 
     /**
   Proměná aktuálního prostoru
@@ -29,6 +35,8 @@ public class HerniPlan {
      Proměná batohu/kosicku, do kterého se dávají vybrané předměty.
      */
     private Kosicek kosicek;
+    private Set<Pozorovatel> seznamPozorovatelu = new HashSet<>();
+
     /**
      Založení hry a košíčku/batohu
      */
@@ -129,7 +137,10 @@ public class HerniPlan {
      */
     public void setAktualniProstor(Prostor prostor) {
        aktualniProstor = prostor;
+        upozorniPozorovatele();
     }
+
+
 
     public void setVyherniProstor(Prostor vyherniProstor) {
         this.vyherniProstor = vyherniProstor;
@@ -152,6 +163,13 @@ public class HerniPlan {
     public Kosicek getKosicek(){return  kosicek;}
 
 
-
-
+    @Override
+    public void registruj(Pozorovatel pozorovatel) {
+        seznamPozorovatelu.add(pozorovatel);
+    }
+    private void upozorniPozorovatele() {
+        for (Pozorovatel pozorovatel : seznamPozorovatelu){
+            pozorovatel.aktualizuj();
+        }
+    }
 }

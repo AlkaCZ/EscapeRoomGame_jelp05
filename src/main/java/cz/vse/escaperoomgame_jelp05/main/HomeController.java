@@ -2,14 +2,20 @@ package cz.vse.escaperoomgame_jelp05.main;
 
 import cz.vse.escaperoomgame_jelp05.logika.Hra;
 import cz.vse.escaperoomgame_jelp05.logika.IHra;
+import cz.vse.escaperoomgame_jelp05.logika.Prostor;
 import javafx.application.Platform;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.util.Optional;
 
-public class HomeController {
+public class HomeController implements Pozorovatel {
+    @FXML
+    private ListView panelVychodu;
     @FXML
     private Button odesliButton;
     @FXML
@@ -18,11 +24,19 @@ public class HomeController {
     private TextField vstup;
 
     private IHra hra = new Hra();
+    private ObservableList<Prostor>  seznamVychodu = FXCollections.observableArrayList();
     @FXML
     private void initialize(){
      vystup.appendText(hra.vratUvitani()+"\n");
-        Platform.runLater(() -> vstup.requestFocus());
-    
+     Platform.runLater(() -> vstup.requestFocus());
+     panelVychodu.setItems(seznamVychodu);
+     hra.getHerniPlan().registruj(this);
+     aktualizujSeznamVychodu();
+    }
+    @FXML
+    private void aktualizujSeznamVychodu(){
+     seznamVychodu.clear();
+     seznamVychodu.addAll(hra.getHerniPlan().getAktualniProstor().getVychody());
     }
 @FXML
     private void odesliVstup(ActionEvent actionEvent) {
@@ -45,5 +59,10 @@ public class HomeController {
         if (result.isPresent() && result.get()  == ButtonType.OK){
             Platform.exit();
         }
+    }
+
+    @Override
+    public void aktualizuj() {
+        aktualizujSeznamVychodu();
     }
 }

@@ -255,5 +255,8 @@ public class Prostor {
         return seznam;
     }
 
-
+    @Override
+    public String toString() {
+        return getNazev();
+    }
 }

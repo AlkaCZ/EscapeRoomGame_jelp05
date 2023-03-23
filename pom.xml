@@ -6,7 +6,7 @@
 
     <groupId>cz.vse</groupId>
     <artifactId>EscapeRoomGame_jelp05</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0-snapshot</version>
     <name>EscapeRoomGame_jelp05</name>
 
     <properties>

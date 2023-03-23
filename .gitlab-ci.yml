@@ -6,5 +6,5 @@ sestaveni:
   artifacts:
     paths:
       - "target/*.zip"
-    only:
-      - master
+  only:
+    - master

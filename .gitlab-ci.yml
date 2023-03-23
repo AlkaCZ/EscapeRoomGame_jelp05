@@ -1,7 +1,7 @@
 image: maven:3.8-openjdk-17
 
 sestaveni:
-  -script:
+  script:
     - "mvn javafix:jlink -B"
   artifacts:
     paths:

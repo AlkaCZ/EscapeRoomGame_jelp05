@@ -2,6 +2,7 @@ package cz.vse.escaperoomgame_jelp05.main;
 
 import cz.vse.escaperoomgame_jelp05.logika.Hra;
 import cz.vse.escaperoomgame_jelp05.logika.IHra;
+import cz.vse.escaperoomgame_jelp05.logika.PrikazJdi;
 import cz.vse.escaperoomgame_jelp05.logika.Prostor;
 import javafx.application.Platform;
 import javafx.beans.Observable;
@@ -10,12 +11,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 
 import java.util.Optional;
 
-public class HomeController implements Pozorovatel {
+public class HomeController {
     @FXML
-    private ListView panelVychodu;
+    private ListView<Prostor> panelVychodu;
     @FXML
     private Button odesliButton;
     @FXML
@@ -30,27 +32,36 @@ public class HomeController implements Pozorovatel {
      vystup.appendText(hra.vratUvitani()+"\n");
      Platform.runLater(() -> vstup.requestFocus());
      panelVychodu.setItems(seznamVychodu);
-     hra.getHerniPlan().registruj(this);
-     aktualizujSeznamVychodu();
+     hra.getHerniPlan().registruj(ZmenaHry.ZMENA_MISTNOSTI, () -> aktualizujSeznamVychodu());
+     hra.registruj(ZmenaHry.ZMENA_HRY, () -> aktualizujKonecHry());
+        aktualizujSeznamVychodu();
     }
     @FXML
     private void aktualizujSeznamVychodu(){
      seznamVychodu.clear();
      seznamVychodu.addAll(hra.getHerniPlan().getAktualniProstor().getVychody());
     }
+
+    private void aktualizujKonecHry() {
+        if (hra.konecHry()){
+            vystup.appendText(hra.vratEpilog());
+        }
+
+        vstup.setDisable(hra.konecHry());
+        odesliButton.setDisable(hra.konecHry());
+        panelVychodu.setDisable(hra.konecHry());
+    }
 @FXML
     private void odesliVstup(ActionEvent actionEvent) {
     String prikaz = vstup.getText();
-    vystup.appendText("> "+prikaz +"\n\n");
-    String vysledek = hra.zpracujPrikaz(prikaz);
-    vystup.appendText(vysledek +"\n\n");
     vstup.clear();
+    zpracujPrikaz(prikaz);
+}
 
-    if (hra.konecHry()){
-        vystup.appendText(hra.vratEpilog());
-        vstup.setDisable(true);
-        odesliButton.setDisable(true);
-        }
+    private void zpracujPrikaz(String prikaz) {
+        vystup.appendText("> "+ prikaz +"\n\n");
+        String vysledek = hra.zpracujPrikaz(prikaz);
+        vystup.appendText(vysledek +"\n\n");
     }
 
     public void ukoncitHru(ActionEvent actionEvent) {
@@ -61,8 +72,13 @@ public class HomeController implements Pozorovatel {
         }
     }
 
-    @Override
-    public void aktualizuj() {
-        aktualizujSeznamVychodu();
+
+
+    @FXML
+    private void klikPanelVychodu(MouseEvent mouseEvent) {
+       Prostor cil = panelVychodu.getSelectionModel().getSelectedItem();
+       if (cil==null)return;
+       String prikaz = PrikazJdi.NAZEV + " " + cil;
+       zpracujPrikaz(prikaz);
     }
 }

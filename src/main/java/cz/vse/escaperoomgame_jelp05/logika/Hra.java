@@ -1,5 +1,14 @@
 package cz.vse.escaperoomgame_jelp05.logika;
 
+import cz.vse.escaperoomgame_jelp05.main.Pozorovatel;
+import cz.vse.escaperoomgame_jelp05.main.PredmetPozorovani;
+import cz.vse.escaperoomgame_jelp05.main.ZmenaHry;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 /**
  *  Třída Hra - třída představující logiku adventury.
  * 
@@ -31,6 +40,8 @@ public class Hra implements IHra {
 
     private String epilog = "Dík, že jste si zahráli.  Ahoj.";
 
+    private Map<ZmenaHry, Set<Pozorovatel>> seznamPozorovatelu = new HashMap<>();
+
     /**
      *  Vytváří hru a inicializuje místnosti (prostřednictvím třídy HerniPlan) a seznam platných příkazů.
      */
@@ -47,6 +58,9 @@ public class Hra implements IHra {
         platnePrikazy.vlozPrikaz(new PrikazOdemkni(herniPlan));
         platnePrikazy.vlozPrikaz(new PrikazRozeber(herniPlan));
         platnePrikazy.vlozPrikaz(new PrikazBatoh(herniPlan));
+        for (ZmenaHry zmenaHry : ZmenaHry.values()){
+            seznamPozorovatelu.put(zmenaHry, new HashSet<>());
+        }
     }
 
     /**
@@ -114,6 +128,7 @@ public class Hra implements IHra {
      */
     void setKonecHry(boolean konecHry) {
         this.konecHry = konecHry;
+        upozorniPozorovatele(ZmenaHry.ZMENA_HRY);
     }
     
      /**
@@ -130,5 +145,14 @@ public class Hra implements IHra {
         this.epilog = epilog;
     }
 
+    @Override
+    public void registruj(ZmenaHry zmenaHry,Pozorovatel pozorovatel) {
+        seznamPozorovatelu.get(zmenaHry).add(pozorovatel);
+    }
+    private void upozorniPozorovatele(ZmenaHry zmenaHry) {
+        for (Pozorovatel pozorovatel : seznamPozorovatelu.get(zmenaHry)){
+            pozorovatel.aktualizuj();
+        }
+    }
 }
 

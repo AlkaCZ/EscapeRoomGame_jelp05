@@ -8,7 +8,7 @@ public class PrikazJdi implements IPrikaz {
     /**
      Nastavení toho jak se bude příkaz volat jako příkaz
      */
-    private static final String NAZEV = "jdi";
+    public static final String NAZEV = "jdi";
     /**
      Vytvoření instance hry, holder
      */

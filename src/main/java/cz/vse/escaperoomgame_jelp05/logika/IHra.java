@@ -2,14 +2,13 @@
 package cz.vse.escaperoomgame_jelp05.logika;
 
 
-
-
+import cz.vse.escaperoomgame_jelp05.main.PredmetPozorovani;
 
 /**
  *  Rozhraní které musí implementovat hra, je na ně navázáno uživatelské rozhraní
  *
  */
-public interface IHra
+public interface IHra extends PredmetPozorovani
 {
     //== VEŘEJNÉ KONSTANTY =====================================================
     //== DEKLAROVANÉ METODY ====================================================

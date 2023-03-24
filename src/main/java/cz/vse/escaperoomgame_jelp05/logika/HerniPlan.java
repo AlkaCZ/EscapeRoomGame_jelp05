@@ -3,9 +3,12 @@ package cz.vse.escaperoomgame_jelp05.logika;
 
 import cz.vse.escaperoomgame_jelp05.main.Pozorovatel;
 import cz.vse.escaperoomgame_jelp05.main.PredmetPozorovani;
+import cz.vse.escaperoomgame_jelp05.main.ZmenaHry;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Map;
 
 /**
  *  Class HerniPlan - třída představující mapu a stav adventury.
@@ -35,7 +38,7 @@ public class HerniPlan implements PredmetPozorovani {
      Proměná batohu/kosicku, do kterého se dávají vybrané předměty.
      */
     private Kosicek kosicek;
-    private Set<Pozorovatel> seznamPozorovatelu = new HashSet<>();
+    private Map<ZmenaHry,Set<Pozorovatel>> seznamPozorovatelu = new HashMap<>();
 
     /**
      Založení hry a košíčku/batohu
@@ -44,6 +47,9 @@ public class HerniPlan implements PredmetPozorovani {
     public HerniPlan() {
         kosicek = new Kosicek(10);
         zalozProstoryHry();
+        for (ZmenaHry zmenaHry : ZmenaHry.values()){
+            seznamPozorovatelu.put(zmenaHry, new HashSet<>());
+        }
 
     }
     /**
@@ -137,7 +143,7 @@ public class HerniPlan implements PredmetPozorovani {
      */
     public void setAktualniProstor(Prostor prostor) {
        aktualniProstor = prostor;
-        upozorniPozorovatele();
+        upozorniPozorovatele(ZmenaHry.ZMENA_MISTNOSTI);
     }
 
 
@@ -164,11 +170,11 @@ public class HerniPlan implements PredmetPozorovani {
 
 
     @Override
-    public void registruj(Pozorovatel pozorovatel) {
-        seznamPozorovatelu.add(pozorovatel);
+    public void registruj(ZmenaHry zmenaHry,Pozorovatel pozorovatel) {
+        seznamPozorovatelu.get(zmenaHry).add(pozorovatel);
     }
-    private void upozorniPozorovatele() {
-        for (Pozorovatel pozorovatel : seznamPozorovatelu){
+    private void upozorniPozorovatele(ZmenaHry zmenaHry) {
+        for (Pozorovatel pozorovatel : seznamPozorovatelu.get(zmenaHry)){
             pozorovatel.aktualizuj();
         }
     }

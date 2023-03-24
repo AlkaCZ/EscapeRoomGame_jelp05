@@ -1,6 +1,6 @@
 package cz.vse.escaperoomgame_jelp05.main;
 
 public interface PredmetPozorovani {
-    void registruj(Pozorovatel pozorovatel);
+    void registruj(ZmenaHry zmenaHry, Pozorovatel pozorovatel);
 
 }

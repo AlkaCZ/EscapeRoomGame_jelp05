@@ -10,12 +10,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class HomeController {
+    @FXML
+    private ImageView hrac;
     @FXML
     private ListView<Prostor> panelVychodu;
     @FXML
@@ -27,21 +33,44 @@ public class HomeController {
 
     private IHra hra = new Hra();
     private ObservableList<Prostor>  seznamVychodu = FXCollections.observableArrayList();
+    private Map<String, Point2D> souradniceProstoru = new HashMap<>();
     @FXML
     private void initialize(){
      vystup.appendText(hra.vratUvitani()+"\n");
      Platform.runLater(() -> vstup.requestFocus());
      panelVychodu.setItems(seznamVychodu);
-     hra.getHerniPlan().registruj(ZmenaHry.ZMENA_MISTNOSTI, () -> aktualizujSeznamVychodu());
+     hra.getHerniPlan().registruj(ZmenaHry.ZMENA_MISTNOSTI, () -> {
+         aktualizujSeznamVychodu();
+         aktualizujPolohuHrace();
+     });
      hra.registruj(ZmenaHry.ZMENA_HRY, () -> aktualizujKonecHry());
         aktualizujSeznamVychodu();
+        vlozSouradnice();
+
     }
+
+    private void vlozSouradnice() {
+        souradniceProstoru.put("Předsíň", new Point2D(-28,175));
+        souradniceProstoru.put("Chodba", new Point2D(159,175));
+        souradniceProstoru.put("Laboratoř", new Point2D(330,280));
+        souradniceProstoru.put("Řídící_místnost", new Point2D(333,63));
+        souradniceProstoru.put("Osobní_pokoj", new Point2D(520,144));
+        souradniceProstoru.put("Skrytá_místnost", new Point2D(534,-8));
+    }
+
     @FXML
     private void aktualizujSeznamVychodu(){
      seznamVychodu.clear();
      seznamVychodu.addAll(hra.getHerniPlan().getAktualniProstor().getVychody());
     }
 
+    private void aktualizujPolohuHrace(){
+        String prostor = hra.getHerniPlan().getAktualniProstor().getNazev();
+        hrac.setLayoutX(souradniceProstoru.get(prostor).getX());
+        hrac.setLayoutY(souradniceProstoru.get(prostor).getY());
+
+
+    }
     private void aktualizujKonecHry() {
         if (hra.konecHry()){
             vystup.appendText(hra.vratEpilog());
@@ -49,7 +78,7 @@ public class HomeController {
 
         vstup.setDisable(hra.konecHry());
         odesliButton.setDisable(hra.konecHry());
-        panelVychodu.setDisable(hra.konecHry());
+         panelVychodu.setDisable(hra.konecHry());
     }
 @FXML
     private void odesliVstup(ActionEvent actionEvent) {

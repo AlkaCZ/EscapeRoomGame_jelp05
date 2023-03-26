@@ -37,8 +37,7 @@ public class PrikazRozeber implements IPrikaz{
                     case "set_doutníku_se_zapalovačem":
                         plan.getKosicek().vlozDoKosicku(new Vec("Doutník",true, false, false, false));
                         plan.getKosicek().vlozDoKosicku(new Vec("Zapalovač",true, true, false, false));
-                        System.out.printf(pozadovanaVec.getNazev() + " jsi rozebral na samotný doutník a zapalovač a vložil jsi si je do batohu");
-                  break;
+                       return (pozadovanaVec.getNazev() + " jsi rozebral na samotný doutník a zapalovač a vložil jsi si je do batohu");
                 }
             }
             else {

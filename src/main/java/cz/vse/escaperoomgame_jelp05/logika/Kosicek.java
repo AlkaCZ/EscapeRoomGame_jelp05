@@ -1,5 +1,6 @@
 package cz.vse.escaperoomgame_jelp05.logika;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 /**
@@ -80,6 +81,9 @@ public class Kosicek {
             seznam.append(neco.getNazev()).append(" ");
         }
         return seznam.toString();
+    }
+    public Collection<Vec> getSeznamVeci(){
+        return obsahKosicku;
     }
 
 }

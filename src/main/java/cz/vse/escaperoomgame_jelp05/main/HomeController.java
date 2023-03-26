@@ -1,9 +1,6 @@
 package cz.vse.escaperoomgame_jelp05.main;
 
-import cz.vse.escaperoomgame_jelp05.logika.Hra;
-import cz.vse.escaperoomgame_jelp05.logika.IHra;
-import cz.vse.escaperoomgame_jelp05.logika.PrikazJdi;
-import cz.vse.escaperoomgame_jelp05.logika.Prostor;
+import cz.vse.escaperoomgame_jelp05.logika.*;
 import javafx.application.Platform;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
@@ -25,6 +22,8 @@ import java.util.Optional;
 
 public class HomeController {
     @FXML
+    private ListView inventarList;
+    @FXML
     private ImageView hrac;
     @FXML
     private ListView<Prostor> panelVychodu;
@@ -38,11 +37,14 @@ public class HomeController {
     private IHra hra = new Hra();
     private ObservableList<Prostor>  seznamVychodu = FXCollections.observableArrayList();
     private Map<String, Point2D> souradniceProstoru = new HashMap<>();
+
+    private ObservableList<Vec> seznamInventare = FXCollections.observableArrayList();
     @FXML
     private void initialize(){
      vystup.appendText(hra.vratUvitani()+"\n");
      Platform.runLater(() -> vstup.requestFocus());
      panelVychodu.setItems(seznamVychodu);
+     inventarList.setItems(seznamInventare);
      hra.getHerniPlan().registruj(ZmenaHry.ZMENA_MISTNOSTI, () -> {
          aktualizujSeznamVychodu();
          aktualizujPolohuHrace();
@@ -73,7 +75,11 @@ public class HomeController {
         String prostor = hra.getHerniPlan().getAktualniProstor().getNazev();
         hrac.setLayoutX(souradniceProstoru.get(prostor).getX());
         hrac.setLayoutY(souradniceProstoru.get(prostor).getY());
-
+    }
+    @FXML
+    private void aktualizujSeznamInventare(){
+        seznamInventare.clear();
+        seznamInventare.addAll(hra.getHerniPlan().getKosicek().getSeznamVeci());
 
     }
     private void aktualizujKonecHry() {
@@ -90,6 +96,7 @@ public class HomeController {
     String prikaz = vstup.getText();
     vstup.clear();
     zpracujPrikaz(prikaz);
+    aktualizujSeznamInventare();
 }
 
     private void zpracujPrikaz(String prikaz) {
@@ -123,5 +130,17 @@ public class HomeController {
         napovedaStage.setScene(napovedaScena);
         napovedaStage.show();
         webView.getEngine().load(getClass().getResource("napoveda.html").toExternalForm());
+    }
+    @FXML
+    private void opakujKlik(ActionEvent actionEvent) {
+        Alert opakuj = new Alert(Alert.AlertType.CONFIRMATION, "Opravdu chceš zopakovat hru ?");
+        Optional<ButtonType> result = opakuj.showAndWait();
+        if (result.isPresent() && result.get()  == ButtonType.OK){
+            vystup.clear();
+            hra = new Hra();
+            aktualizujPolohuHrace();
+            initialize();
+            aktualizujKonecHry();
+        }
     }
 }

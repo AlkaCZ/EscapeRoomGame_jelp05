@@ -52,8 +52,7 @@ public class PrikazPouzit implements IPrikaz{
                         plan.getAktualniProstor().vlozVec(new Vec("Postel", false, false, true, false));
                         plan.getAktualniProstor().vlozVec(new Vec("Noční_stolek", false, false, true, false));
                         plan.getAktualniProstor().odeberVec("Tma");
-                        System.out.println("Rozsvítil jsi v celém pokoji a díky tomu ho konečně můžeš pořádně prohledat");
-                        System.out.println("Nová věc v místnosti : Postel Noční_stolek");
+                        return ("Rozsvítil jsi v celém pokoji a díky tomu ho konečně můžeš pořádně prohledat\n"+"Nová věc v místnosti : Postel Noční_stolek");
 
 
                     }
@@ -68,10 +67,10 @@ public class PrikazPouzit implements IPrikaz{
                         hra.setKonecHry(true);
                     }
                     else if (plan.getKosicek().obsahujeVec("Nebezpečná_látka") && !plan.getKosicek().obsahujeVec("Dokumenty_o_vývoji_látky")){
-                        System.out.println("Nebezpečnou látku sice máš, ale pro splnění mise potřebuješ ješte dokumenty.");
+                        return ("Nebezpečnou látku sice máš, ale pro splnění mise potřebuješ ješte dokumenty.");
                     }
                     else if (!plan.getKosicek().obsahujeVec("Nebezpečná_látka") && plan.getKosicek().obsahujeVec("Dokumenty_o_vývoji_látky")){
-                        System.out.println("Dokumenty sice máš, ale pro splnění mise potřebuješ ješte nebezpečnou látku.");
+                        return ("Dokumenty sice máš, ale pro splnění mise potřebuješ ješte nebezpečnou látku.");
                     }
                     break;
 

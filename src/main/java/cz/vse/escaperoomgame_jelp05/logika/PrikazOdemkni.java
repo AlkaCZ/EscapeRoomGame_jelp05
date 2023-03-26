@@ -38,7 +38,7 @@ public class PrikazOdemkni implements IPrikaz{
                             pozadovanaVec.Odemceni(false);
                             pozadovanaVec.setProhledatelna(true);
                             plan.getAktualniProstor().vlozVec(new Vec("Kabat", true, false, true, false));
-                            System.out.printf("Odemkl jsi " + nazevVeci + " ale musíš ho ještě prohledat");
+                            return ("Odemkl jsi " + nazevVeci + " ale musíš ho ještě prohledat");
                         }
                         break;
                     case "Šuplík":
@@ -46,14 +46,14 @@ public class PrikazOdemkni implements IPrikaz{
                         {
                             plan.getAktualniProstor().vratVec(nazevVeci).Odemceni(false);
                             plan.getAktualniProstor().vratVec(nazevVeci).setProhledatelna(true);
-                            System.out.printf("Odemkl jsi " + nazevVeci + " ale musíš ho ještě prohledat");
+                            return ("Odemkl jsi " + nazevVeci + " ale musíš ho ještě prohledat");
                         }
                         break;
                     case "Zvláštní_dvířka":
                         if (plan.getKosicek().obsahujeVec("Zvláštní_kód")) {
                             plan.setTajnyVchod(plan.getAktualniProstor());
-                            System.out.println("Odemkl jsi " + nazevVeci + " a našel jsi novou místnost");
-                            System.out.println("Nová místnost: Skrytá_místnost" );
+                            return ("Odemkl jsi " + nazevVeci + " a našel jsi novou místnost\n"
+                                    + "Nová místnost: Skrytá_místnost");
                         }
                         break;
 

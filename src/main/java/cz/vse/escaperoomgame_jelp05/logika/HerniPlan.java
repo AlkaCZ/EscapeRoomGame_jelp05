@@ -38,6 +38,9 @@ public class HerniPlan implements PredmetPozorovani {
      Proměná batohu/kosicku, do kterého se dávají vybrané předměty.
      */
     private Kosicek kosicek;
+    /**
+     seznam observerů, které se rozhodují na základě toho jestli je nějaká změna ve Hře nebo v jejím stavu.
+     */
     private Map<ZmenaHry,Set<Pozorovatel>> seznamPozorovatelu = new HashMap<>();
 
     /**

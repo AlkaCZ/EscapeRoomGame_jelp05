@@ -39,7 +39,9 @@ public class Hra implements IHra {
      */
 
     private String epilog = "Dík, že jste si zahráli.  Ahoj.";
-
+    /**
+     Seznam všech observerů HRY
+     */
     private Map<ZmenaHry, Set<Pozorovatel>> seznamPozorovatelu = new HashMap<>();
 
     /**

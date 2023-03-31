@@ -4,6 +4,9 @@ import cz.vse.escaperoomgame_jelp05.logika.Prostor;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.ImageView;
 
+/**
+ Třída pro nahrání a zobrazení obrázků všech prostorů.
+ */
 public class ListCellProstor extends ListCell<Prostor> {
     @Override
     protected void updateItem(Prostor prostor, boolean empty) {

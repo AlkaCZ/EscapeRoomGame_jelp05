@@ -82,6 +82,9 @@ public class Kosicek {
         }
         return seznam.toString();
     }
+    /**
+     * Metoda pro navrácení obsahu košíčku ve tvaru Věc
+     */
     public Collection<Vec> getSeznamVeci(){
         return obsahKosicku;
     }

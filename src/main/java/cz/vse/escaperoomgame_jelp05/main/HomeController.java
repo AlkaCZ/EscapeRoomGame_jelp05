@@ -20,24 +20,55 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ Třída která ovládá FXML rozhraní hry
+ */
 public class HomeController {
+    /**
+     Proměná pro seznam věcí v inventáři, který so zobrazuje v FXML.
+     */
     @FXML
     private ListView inventarList;
+    /**
+     Proměná pro zobrazení hry z pohledu hráče.
+     */
     @FXML
     private ImageView hrac;
+    /**
+     Proměná pro seznam prostorů ve hře, který so zobrazuje v FXML.
+     */
     @FXML
     private ListView<Prostor> panelVychodu;
+    /**
+     Proměná pro tlačítko pro odeslání příkazu v FXML.
+     */
     @FXML
     private Button odesliButton;
+    /**
+     Proměná pro tabuly která vypisuje průběh hry.
+     */
     @FXML
     private TextArea vystup;
+    /**
+     Proměná pro TextField do kterého uživatel zadává své příkazy.
+     */
     @FXML
     private TextField vstup;
-
+    /**
+     Vytvoření instance hry.
+     */
     private IHra hra = new Hra();
+    /**
+     Vytboření seznamu vychodu z danné místnosti.
+     */
     private ObservableList<Prostor>  seznamVychodu = FXCollections.observableArrayList();
+    /**
+    Vytboření seznamu souřadnic pro pohyb hráče na hracím poly.
+     */
     private Map<String, Point2D> souradniceProstoru = new HashMap<>();
-
+    /**
+     *  Vytváří seznamu Inventáře.
+     */
     private ObservableList<Vec> seznamInventare = FXCollections.observableArrayList();
     @FXML
     private void initialize(){
@@ -104,7 +135,9 @@ public class HomeController {
         String vysledek = hra.zpracujPrikaz(prikaz);
         vystup.appendText(vysledek +"\n\n");
     }
-
+    /**
+     *  Metoda která se spouští při ukončení hry přes tlačítko.
+     */
     public void ukoncitHru(ActionEvent actionEvent) {
         Alert ukonceni = new Alert(Alert.AlertType.CONFIRMATION, "Opravdu chceš ukončit hru ?");
         Optional<ButtonType> result = ukonceni.showAndWait();

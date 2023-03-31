@@ -17,6 +17,9 @@ import cz.vse.escaperoomgame_jelp05.logika.IHra;
  */
 
 public class TextoveRozhrani {
+    /**
+     *  Inicializace hry jako objektu
+     */
     private IHra hra;
 
     /**

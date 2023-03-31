@@ -17,27 +17,31 @@
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
-            <artifactId>javafx-web</artifactId>
-            <version>17.0.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>17.0.2</version>
         </dependency>
+
+
 
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>17.0.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>17.0.2</version>
+        </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -67,13 +71,12 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>cz.vse.escaperoomgame_jelp05/cz.vse.escaperoomgame_jelp05.main.Start</mainClass>
-                            <launcher>escaperoomgame</launcher>
-                            <jlinkZipName>escaperoomgame</jlinkZipName>
-                            <jlinkImageName>escaperoomgame</jlinkImageName>
+                            <launcher>${artifactId}</launcher>
+                            <jlinkZipName>${artifactId}-${project.version}</jlinkZipName>
+                            <jlinkImageName>${artifactId}</jlinkImageName>
                             <noManPages>true</noManPages>
                             <stripDebug>true</stripDebug>
                             <noHeaderFiles>true</noHeaderFiles>
-                            <executable>C:\Users\Petr Jelínek\.jdks\liberica-17.0.6\bin\java</executable>
                         </configuration>
                     </execution>
                 </executions>
